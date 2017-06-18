@@ -41,18 +41,31 @@ var server = http.createServer(function(req, res) {
 
     }else if(req.method === "POST"){    
         if (req.url === '/api/chirps'){
-            var raw = JSON.parse(fs.readFileSync('server/data.json','utf8'));
-            var data = '';
-            req.on('data', function(d) {
-                data += d;
-            });
-            req.on('end', function() {
-                res.writeHead(201, {'Content-Type': 'application/JSON'});
-                raw.push(JSON.parse(data));
-                json = JSON.stringify(raw);
-                fs.writeFileSync('server/data.json', json, 'utf8'); // write it back 
-                res.end(data);
-            });
+                fs.readFile('server/data.json','utf8', function(err, data){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        var raw = JSON.parse(data);
+                        var data = '';
+                        req.on('data', function(d) {
+                            data += d;
+                        });
+                        req.on('end', function() {
+                            res.writeHead(201, {'Content-Type': 'application/JSON'});
+                            raw.push(JSON.parse(data));
+                            json = JSON.stringify(raw);
+                            fs.writeFile('server/data.json', json, 'utf8',function(err,data){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    res.end(data);      
+                                }
+                            });
+                            
+                        });
+                    }
+                });
+
         }
     }
 });

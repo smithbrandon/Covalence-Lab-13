@@ -3,18 +3,14 @@ var chirp = {}
 
 function getdate(time){
     var currenttime = new Date();
-    console.log(currenttime);
-    console.log(currenttime.getTime());
     var d = new Date(time);
-    console.log(d);
-    console.log(d.getTime());
     var diffMin = (currenttime.getTime() - d.getTime())/60000;
-    console.log(diffMin);
     if (diffMin < 60){
         return Math.ceil(diffMin) + " min ago";
-    }else if (diffMin < (24*60)){
+    }else if (d.getFullYear() === currenttime.getFullYear() && d.getMonth() === currenttime.getMonth() && d.getDay() === currenttime.getDay()){
         return Math.ceil(diffMin/60) + " hours ago";
-    }else if (diffMin >= (24*60) && diffMin < 48*60){
+    }else if (d.getFullYear() === currenttime.getFullYear() && d.getMonth() === currenttime.getMonth() && d.getDate() === (currenttime.getDate()-1)){
+    // diffMin < 48*60){
         return "yesterday";
     }else{
         return Math.ceil(diffMin/(24*60)) + " days ago";
