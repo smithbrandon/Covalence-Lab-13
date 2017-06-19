@@ -69,7 +69,7 @@ $('#chirp-btn').on('click',function(){
     var test = captureChirp();
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/api/chirps",
+        url: "/api/chirps",
         contentType: "application/json",
         dataType: "html",        
         data: JSON.stringify(test)
@@ -102,7 +102,7 @@ function checkMsg(){
 function ref(){
         $.ajax({
         method: "GET",
-        url: "http://localhost:3000/api/chirps"
+        url: "/api/chirps"
     }).then(function(success){
             $("#chirpList").empty();
             chirpBox(JSON.parse(success));
